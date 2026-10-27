@@ -2,6 +2,7 @@ package oidcrp
 
 import (
 	"strings"
+	"time"
 )
 
 // ClaimMap names the claims the library reads when building an Identity.
@@ -75,6 +76,23 @@ type Identity struct {
 	Entitlements  []string
 	// Raw holds every claim of the verified token.
 	Raw map[string]any
+	// Tokens holds the tokens issued at login. It is only set by the login
+	// callback; identities from a validated bearer token leave it nil.
+	Tokens *Tokens
+}
+
+// Tokens are the tokens returned by the provider's token endpoint at login.
+type Tokens struct {
+	// IDToken is the raw, verified ID token. Keep it to pass as the
+	// id_token_hint of EndSessionURL; many providers (Ory Hydra among them)
+	// only honour post_logout_redirect_uri when a hint is given.
+	IDToken string
+	// AccessToken and RefreshToken allow calling APIs on the user's behalf.
+	// RefreshToken is empty unless the offline_access scope was granted.
+	AccessToken  string
+	RefreshToken string
+	// Expiry is when AccessToken expires (zero if the provider did not say).
+	Expiry time.Time
 }
 
 // HasEntitlement reports whether the identity holds the entitlement (exact match).

@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-27
+
+### Added
+
+- `Identity.Tokens` carries the ID, access and refresh tokens (and access-token
+  expiry) returned at login, so an app can pass the ID token as
+  `id_token_hint` to `EndSessionURL` (required by Ory Hydra to honour
+  `post_logout_redirect_uri`) or call APIs on the user's behalf. It is nil for
+  identities from `TokenValidator`.
+
 ## [0.1.0] - 2026-10-27
 
 ### Added
@@ -31,5 +41,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Typed errors (`ErrStateMismatch`, `ErrExchangeFailed`, `ErrNonceMismatch` and
   others) for mapping login failures to HTTP responses.
 
-[Unreleased]: https://github.com/open-southeners/oidcrp/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/open-southeners/oidcrp/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/open-southeners/oidcrp/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/open-southeners/oidcrp/releases/tag/v0.1.0

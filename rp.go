@@ -182,7 +182,14 @@ func (rp *RP) Callback(w http.ResponseWriter, r *http.Request) (Identity, string
 	if err := idt.Claims(&raw); err != nil {
 		return Identity{}, "", fmt.Errorf("%w: %v", ErrIDTokenInvalid, err)
 	}
-	return rp.claims.identity(idt.Issuer, idt.Subject, raw), st.Next, nil
+	id := rp.claims.identity(idt.Issuer, idt.Subject, raw)
+	id.Tokens = &Tokens{
+		IDToken:      rawID,
+		AccessToken:  tok.AccessToken,
+		RefreshToken: tok.RefreshToken,
+		Expiry:       tok.Expiry,
+	}
+	return id, st.Next, nil
 }
 
 // CallbackHandler wraps Callback. onLogin is invoked with the verified

@@ -101,6 +101,9 @@ func TestHappyPath(t *testing.T) {
 	if id.IsAdmin {
 		t.Error("unexpected admin")
 	}
+	if id.Tokens == nil || id.Tokens.IDToken == "" || id.Tokens.AccessToken == "" {
+		t.Errorf("login tokens not returned: %+v", id.Tokens)
+	}
 	cleared := false
 	for _, c := range w.Result().Cookies() {
 		if c.Name == "oidcrp_state" && c.MaxAge < 0 {

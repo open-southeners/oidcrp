@@ -38,7 +38,8 @@ mux.Handle("/auth/oidc/callback", rp.CallbackHandler(
 ```
 
 Use `rp.Callback(w, r)` directly if you prefer to handle the result yourself, and
-`rp.EndSessionURL(idTokenHint, postLogoutRedirectURI)` for RP-initiated logout.
+`rp.EndSessionURL(id.Tokens.IDToken, postLogoutRedirectURI)` for RP-initiated logout (keep
+`id.Tokens.IDToken` from the login; Hydra needs it to honour the redirect).
 With gin: `r.GET("/auth/oidc/login", gin.WrapH(rp.LoginHandler()))`.
 
 Errors from `Callback` wrap: `ErrProviderError`, `ErrCodeMissing`, `ErrStateMissing`, `ErrStateInvalid`,
